@@ -1,0 +1,177 @@
+/* Web Form-Specific Styles: webForm.css */
+form {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-size: 1em;
+    color: var(--rust);
+}
+
+input[type="time"],
+input[type="number"],
+select,
+button {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 10px;
+    width: 95%;
+    font-size: 1em;
+    border: 1px solid var(--moonstone);
+    border-radius: 5px;
+}
+
+button {
+    background-color: var(--melon);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--rust);
+}
+
+/* Media Queries for Responsive Form */
+@media screen and (max-width: 768px) {
+    form {
+        padding: 30px;
+        max-width: 350px;
+    }
+
+    label {
+        font-size: 0.9em;
+    }
+
+    input, select, button {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    form {
+        padding: 20px;
+        max-width: 300px;
+    }
+
+    label {
+        font-size: 0.8em;
+    }
+
+    input, select, button {
+        padding: 6px;
+        font-size: 0.8em;
+    }
+}
+/* Customize the Select2 Multiple Selection Box */
+.select2-container--default .select2-selection--multiple {
+    background-color: #f7f7f7;
+    border: 1px solid var(--moonstone);
+    border-radius: 5px;
+    padding: 5px;
+    min-height: 40px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+/* Style for Selected Items (Tags) */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: var(--melon);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 5px;
+    font-size: 0.9em;
+    margin: 2px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: white;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+/* Customize the Dropdown List */
+.select2-container--default .select2-results > .select2-results__options {
+    max-height: 300px; /* Maximum height for dropdown */
+    overflow-y: auto;  /* Scrollable if items exceed max-height */
+    border: 1px solid var(--moonstone);
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Customize Search Input Inside Dropdown */
+.select2-container .select2-search--dropdown .select2-search__field {
+    padding: 10px;
+    width: 95%;
+    font-size: 1em;
+    border: 1px solid var(--moonstone);
+    border-radius: 5px;
+}
+
+/* Highlight Hovered or Selected Options */
+.select2-container--default .select2-results__option--highlighted {
+    background-color: var(--melon);
+    color: white;
+}
+/* Form Container */
+.form-container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 450px;
+    margin: 50px auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+.form-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-header img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+/* Progress Bar */
+.progress-bar {
+    background: #e0e0e0;
+    border-radius: 5px;
+    height: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.progress-bar .progress {
+    background: var(--melon);
+    height: 100%;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+/* Fun Fact */
+.fun-fact {
+    text-align: center;
+    font-style: italic;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: var(--lapis-lazuli);
+}
+

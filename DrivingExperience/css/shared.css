@@ -1,0 +1,55 @@
+/* Shared CSS: shared.css */
+:root {
+    --rosy-brown: #B1848F;
+    --moonstone: #6CAFC7;
+    --lapis-lazuli: #2F6083;
+    --melon: #FBAA94;
+    --rust: #AE3E15;
+}   
+
+/* Background Animation */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, var(--rosy-brown), var(--moonstone), var(--lapis-lazuli), var(--melon), var(--rust));
+    background-size: 400% 400%;
+    animation: gradientAnimation 8s ease infinite;
+}
+
+@keyframes gradientAnimation { 
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Button Styling */
+.btn {
+    background-color: var(--melon);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: var(--rust);
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .btn {
+        padding: 12px 25px;
+        font-size: 1.1em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}

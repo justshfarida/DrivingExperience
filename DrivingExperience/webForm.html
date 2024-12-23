@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driving Experience Form</title>
+    <style>
+        /* Define custom colors */
+        :root {
+            --rosy-brown: #B1848F;
+            --moonstone: #6CAFC7;
+            --lapis-lazuli: #2F6083;
+            --melon: #FBAA94;
+            --rust: #AE3E15;
+        }
+
+        /* Background Animation */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, var(--rosy-brown), var(--moonstone), var(--lapis-lazuli), var(--melon), var(--rust));
+            background-size: 400% 400%;
+            animation: gradientAnimation 8s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--lapis-lazuli);
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-size: 1em;
+            color: var(--rust);
+        }
+
+        input[type="time"],
+        input[type="number"],
+        input[type="text"],
+        input[type="radio"],
+        input[type="checkbox"],
+        select,
+        button {
+            margin-top: 5px;
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 95%;
+            font-size: 1em;
+            border: 1px solid var(--moonstone);
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: var(--melon);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--rust);
+        }
+    </style>
+</head>
+<body>
+
+<form action="webFormHandler.php" method="POST">
+    <h1>Driving Experience</h1>
+
+    <!-- Start Time -->
+    <label for="startTime">Start Time:</label>
+    <input type="time" name="startTime" required>
+
+    <!-- End Time -->
+    <label for="endTime">End Time:</label>
+    <input type="time" name="endTime" required>
+
+    <!-- Distance -->
+    <label for="distance">Distance (km):</label>
+    <input type="number" name="distance" min="1" required>
+
+    <!-- Weather (Dropdown) -->
+    <label for="weather_id">Weather:</label>
+    <select name="weather_id" required>
+        <option value="1">Sunny</option>
+        <option value="2">Rainy</option>
+        <option value="3">Snowy</option>
+        <option value="4">Cloudy</option>
+        <option value="5">Foggy</option>
+    </select>
+
+    <!-- Road Condition (Dropdown) -->
+    <label for="road_id">Road Condition:</label>
+    <select name="road_id" required>
+        <option value="1">Smooth</option>
+        <option value="2">Potholes</option>
+        <option value="3">Uneven</option>
+        <option value="4">Under Construction</option>
+        <option value="5">Slippery</option>
+    </select>
+
+    <!-- Traffic Condition (Dropdown) -->
+    <label for="traffic_id">Traffic:</label>
+    <select name="traffic_id" required>
+        <option value="1">Light</option>
+        <option value="2">Moderate</option>
+        <option value="3">Heavy</option>
+    </select>
+
+    <!-- Maneuvers (Checkboxes) -->
+    <label for="maneuvers">Maneuvers:</label>
+    <input type="checkbox" name="maneuvers[]" value="1"> Changing Lanes
+    <input type="checkbox" name="maneuvers[]" value="2"> Parking
+    <input type="checkbox" name="maneuvers[]" value="3"> U-Turn
+    <input type="checkbox" name="maneuvers[]" value="4"> Stopping
+    <input type="checkbox" name="maneuvers[]" value="5"> Turning Left
+    <input type="checkbox" name="maneuvers[]" value="6"> Turning Right
+    <input type="checkbox" name="maneuvers[]" value="7"> Overtaking
+
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

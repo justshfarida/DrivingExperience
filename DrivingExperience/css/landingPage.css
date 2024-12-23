@@ -1,0 +1,111 @@
+
+/* Hero Section */
+.hero {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5%;
+    height: 90vh;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2)), 
+                linear-gradient(45deg, var(--rosy-brown), var(--melon), var(--moonstone), var(--lapis-lazuli));
+    background-size: 400% 400%;
+    animation: gradientAnimation 8s ease infinite;
+    color: #fff;
+}
+
+.hero-content {
+    max-width: 50%;
+    text-align: left;
+    animation: fadeIn 2s ease;
+}
+
+.hero-content h1 {
+    font-size: 3.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.hero-content p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.hero-image img {
+    max-width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    animation: slideIn 1.5s ease;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.buttons .btn {
+    font-size: 1.1em;
+    padding: 12px 25px;
+    margin-right: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    background: var(--melon);
+    color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.buttons .btn:hover {
+    background: var(--rust);
+    transform: scale(1.05);
+}
+
+/* Responsive Design for Small Screens */
+@media screen and (max-width: 760px) {
+    .hero {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        height: 100vh;
+        padding: 20px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        margin-bottom: 20px;
+        text-align:center;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5em;
+    }
+
+    .hero-content p {
+        font-size: 1.1em;
+    }
+    .hero-content{
+        order:2;
+    }
+    .hero-image img {
+        max-width: 90%;
+    }
+    .buttons
+    {
+        display:inline;
+    }
+    .buttons .btn {
+        margin-right: 5%;
+        margin-bottom: 10px;
+        width: 40%; /* Make buttons fit better on smaller screens */
+
+    }
+}
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    0% { opacity: 0; transform: translateX(50px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
