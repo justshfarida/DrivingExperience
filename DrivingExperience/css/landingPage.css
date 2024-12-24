@@ -1,3 +1,27 @@
+/* Shared CSS: shared.css */
+:root {
+    --rosy-brown: #B1848F;
+    --moonstone: #6CAFC7;
+    --lapis-lazuli: #2F6083;
+    --melon: #FBAA94;
+    --rust: #AE3E15;
+}   
+
+/* Background Animation */
+body {
+    font-family: var(--bs-body-font-family);
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, var(--rosy-brown), var(--moonstone), var(--lapis-lazuli), var(--melon), var(--rust));
+    background-size: 400% 400%;
+    animation: gradientAnimation 8s ease infinite;
+}
+
+@keyframes gradientAnimation { 
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
 /* Hero Section */
 .hero {
@@ -5,7 +29,7 @@
     justify-content: space-around;
     align-items: center;
     padding: 5%;
-    height: 90vh;
+    height: 100vh;
     background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2)), 
                 linear-gradient(45deg, var(--rosy-brown), var(--melon), var(--moonstone), var(--lapis-lazuli));
     background-size: 400% 400%;

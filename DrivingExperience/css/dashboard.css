@@ -1,4 +1,12 @@
-/* Dashboard-Specific Styles: dashboard.css */
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fbd4c5 !important;
+    color: #333;
+    font-family: var(--bs-body-font-family);
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -9,6 +17,7 @@
     box-sizing: border-box;
 }
 
+/* Table Wrapper */
 .table-wrapper {
     width: 100%;
     max-width: 1000px;
@@ -16,31 +25,67 @@
     margin-bottom: 20px;
 }
 
-/* Responsive Table */
+/* Table Styles */
 table {
     width: 100%;
     margin: 20px 0;
     border-collapse: collapse;
     border: 1px solid #ddd;
     font-size: 1em;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 
 th, td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px;
     text-align: left;
+    font-size: 1em;
+    color: #555;
 }
 
 th {
-    background-color: #f2f2f2;
-    font-size: 1em;
+    background-color: #f8b195; /* Header background color */
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+/* Hover Effect */
+tr:hover {
+    background-color: #fde3d8; /* Row hover color */
 }
 
 .text-center {
     text-align: center;
 }
 
-/* Media Queries for Responsive Dashboard */
+/* Button Styles */
+.buttons .btn {
+    font-size: 1.1em;
+    margin-right: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    background: #f67280;
+    color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    padding:15px 25px;
+}
+
+.buttons .btn:hover {
+    background: #c06c84;
+    transform: scale(1.05);
+}
+
+/* Add New Experience Button */
+.text-center .btn {
+    margin-top: 20px;
+}
+
+/* Responsive Table */
 @media screen and (max-width: 768px) {
     table {
         font-size: 0.9em;

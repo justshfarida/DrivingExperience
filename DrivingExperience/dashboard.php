@@ -8,6 +8,23 @@ $_SESSION['code'] = [];
 
 $db = Database::getInstance();
 $pdo = $db->getConnection();
+
+// Fetch weather distribution data from the database
+$weatherQuery = "
+    SELECT w.weather_condition, COUNT(*) as count
+    FROM Driving_Experience de
+    JOIN Weather w ON de.weather_id = w.weather_id
+    GROUP BY w.weather_condition
+";
+$weatherData = $pdo->query($weatherQuery)->fetchAll(PDO::FETCH_ASSOC);
+
+// Prepare data for the chart
+$weatherLabels = [];
+$weatherCounts = [];
+foreach ($weatherData as $row) {
+    $weatherLabels[] = $row['weather_condition'];
+    $weatherCounts[] = $row['count'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,9 +35,11 @@ $pdo = $db->getConnection();
     <title>Driving Experience List</title>
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/shared.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="container">
@@ -103,10 +122,16 @@ $pdo = $db->getConnection();
             </tbody>
         </table>
     </div>
-    <div class="text-center">
+
+    <!-- Pie Chart Section -->
+    <div class="chart-container" style="width: 50%; margin: 20px auto;">
+        <canvas id="weatherChart"></canvas>
+    </div>
+
+    <div class="text-center buttons">
         <?php
-            $code = bin2hex(random_bytes(10));
-            $_SESSION['code'][$code] = 0;
+        $code = bin2hex(random_bytes(10));
+        $_SESSION['code'][$code] = 0;
         ?>
         <a href="webForm.php?mode=new&code=<?php echo $code; ?>" class="btn">Add New Driving Experience</a>
     </div>
@@ -120,6 +145,33 @@ $pdo = $db->getConnection();
             "ordering": true,
             "info": true
         });
+    });
+
+    // PHP Data for Chart.js
+    const weatherLabels = <?php echo json_encode($weatherLabels); ?>;
+    const weatherCounts = <?php echo json_encode($weatherCounts); ?>;
+
+    // Create Pie Chart for Weather Distribution
+    const ctx = document.getElementById('weatherChart').getContext('2d');
+    const weatherChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: weatherLabels,
+            datasets: [{
+                label: 'Weather Conditions',
+                data: weatherCounts,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        }
     });
 </script>
 </body>
