@@ -13,22 +13,29 @@ body {
     justify-content: flex-start;
     align-items: center;
     height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-}
+    padding: 0 20px; /* Reduce outer padding to align the scrollbar properly */
 
+    box-sizing: border-box;
+    margin-top: 2% !important;
+}
+.container.foot
+{
+    display:block !important;
+}
 /* Table Wrapper */
 .table-wrapper {
     width: 100%;
     max-width: 1000px;
     overflow-x: auto;
     margin-bottom: 20px;
+    border: 1px solid #ddd; /* Optional for visual structure */
+
 }
 
 /* Table Styles */
 table {
     width: 100%;
-    margin: 20px 0;
+    table-layout: fixed; /* Enforces equal column widths */
     border-collapse: collapse;
     border: 1px solid #ddd;
     font-size: 1em;
@@ -42,6 +49,9 @@ th, td {
     text-align: left;
     font-size: 1em;
     color: #555;
+    white-space: nowrap; /* Prevent text wrapping in columns */
+    overflow: hidden; /* Hide overflow if content exceeds column width */
+    text-overflow: ellipsis; /* Show ellipsis for long content */
 }
 
 th {
@@ -50,7 +60,10 @@ th {
     font-size: 1.1em;
     font-weight: bold;
 }
-
+th, td {
+    word-wrap: break-word; /* Prevent content from breaking layout */
+    white-space: nowrap; /* Prevent wrapping text in table cells */
+}
 /* Hover Effect */
 tr:hover {
     background-color: #fde3d8; /* Row hover color */
@@ -89,8 +102,19 @@ tr:hover {
 @media screen and (max-width: 768px) {
     table {
         font-size: 0.9em;
+        
+    }
+    .dashboard-content {
+        flex-direction: column; /* Stack table and charts vertically */
+        align-items: center; /* Center align for smaller screens */
     }
 
+    .chart-container {
+        max-width: 90%; /* Limit width for smaller screens */
+    }
+    .table-wrapper {
+        overflow-x: scroll; /* Enables the horizontal scrollbar */
+    }
     th, td {
         padding: 6px;
     }
@@ -98,6 +122,7 @@ tr:hover {
     h1 {
         font-size: 2em;
     }
+
 }
 
 @media screen and (max-width: 480px) {
@@ -112,4 +137,62 @@ tr:hover {
     th, td {
         padding: 5px;
     }
+    .table-wrapper {
+        overflow-x: scroll; /* Enables the horizontal scrollbar */
+    }
+}
+/* Adjusted Chart Styles */
+.charts-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Use a responsive grid */
+    gap: 30px; /* Add spacing between chart items */
+    margin-top: 30px;
+    width: 100%; /* Use full width */
+    justify-items: center; /* Center align each chart */
+}
+
+.chart-container {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 450px; /* Ensure larger visibility */
+    height: auto; /* Allow flexible height */
+}
+
+.chart-container canvas {
+    margin: auto;
+    max-width: 100%; /* Responsive canvas width */
+    height: 250px; /* Adjust canvas height */
+}
+
+.text-center {
+    text-align: center;
+    font-size: 1.1em;
+}
+
+/* Header for Statistics */
+.statistics-header {
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 50px;
+    color: #444;
+    text-align: center;
+}
+.mt-5 {
+    margin-top: 3rem;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.circular-logo {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    border-radius: 50%;
+    object-fit: cover; /* Ensures the image is scaled properly within the circle */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Adds a shadow for aesthetics */
+    border: 2px solid #f67280; /* Optional: Adds a border matching your theme */
 }

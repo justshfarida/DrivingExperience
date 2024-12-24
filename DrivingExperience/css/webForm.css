@@ -186,6 +186,13 @@ button:hover {
     .form-row {
         flex-direction: column; /* Stack inputs on smaller screens */
     }
+    .header
+    {
+        text-align: center;
+    }
+    .content{
+        margin-top: 5vh;
+    }
 }
 
 /* Fix for overlapping issues */

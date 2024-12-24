@@ -1,67 +1,67 @@
-    <?php
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+include("connectDB.inc.php");
+
+if (!isset($_GET['mode']) || !isset($_GET['code']) || !isset($_SESSION['code'][$_GET['code']])) {
+    exit("Invalid or missing mode or code.");
+}
+
+$mode = $_GET['mode'];
+$code = $_GET['code'];
+$experience_id = $_SESSION['code'][$code];
+
+$db = Database::getInstance();
+$pdo = $db->getConnection();
+
+$weatherOptions = $pdo->query("SELECT * FROM Weather")->fetchAll(PDO::FETCH_ASSOC);
+$roadOptions = $pdo->query("SELECT * FROM Road")->fetchAll(PDO::FETCH_ASSOC);
+$trafficOptions = $pdo->query("SELECT * FROM Traffic")->fetchAll(PDO::FETCH_ASSOC);
+$maneuverOptions = $pdo->query("SELECT * FROM Maneuvers")->fetchAll(PDO::FETCH_ASSOC);
+
+$startTime = $endTime = $distance = $weather_id = $road_id = $traffic_id = '';
+$selectedManeuvers = [];
+
+if ($mode === 'edit' && $experience_id != 0) {
+    $query = "
+        SELECT 
+            de.start_time, 
+            de.end_time, 
+            de.distance, 
+            de.weather_id, 
+            de.road_id, 
+            de.traffic_id, 
+            GROUP_CONCAT(dm.maneuver_id) AS maneuvers
+        FROM 
+            Driving_Experience de
+        LEFT JOIN 
+            Driving_Maneuvers dm ON de.experience_id = dm.experience_id
+        WHERE 
+            de.experience_id = :experience_id
+        GROUP BY 
+            de.experience_id;
+    ";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([':experience_id' => $experience_id]);
+    $experienceData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($experienceData) {
+        $startTime = $experienceData['start_time'];
+        $endTime = $experienceData['end_time'];
+        $distance = $experienceData['distance'];
+        $weather_id = $experienceData['weather_id'];
+        $road_id = $experienceData['road_id'];
+        $traffic_id = $experienceData['traffic_id'];
+        $selectedManeuvers = explode(',', $experienceData['maneuvers']);
     }
-
-    include("connectDB.inc.php");
-
-    if (!isset($_GET['mode']) || !isset($_GET['code']) || !isset($_SESSION['code'][$_GET['code']])) {
-        exit("Invalid or missing mode or code.");
-    }
-
-    $mode = $_GET['mode'];
-    $code = $_GET['code'];
-    $experience_id = $_SESSION['code'][$code];
-
-    $db = Database::getInstance();
-    $pdo = $db->getConnection();
-
-    $weatherOptions = $pdo->query("SELECT * FROM Weather")->fetchAll(PDO::FETCH_ASSOC);
-    $roadOptions = $pdo->query("SELECT * FROM Road")->fetchAll(PDO::FETCH_ASSOC);
-    $trafficOptions = $pdo->query("SELECT * FROM Traffic")->fetchAll(PDO::FETCH_ASSOC);
-    $maneuverOptions = $pdo->query("SELECT * FROM Maneuvers")->fetchAll(PDO::FETCH_ASSOC);
-
-    $startTime = $endTime = $distance = $weather_id = $road_id = $traffic_id = '';
-    $selectedManeuvers = [];
-
-    if ($mode === 'edit' && $experience_id != 0) {
-        $query = "
-            SELECT 
-                de.start_time, 
-                de.end_time, 
-                de.distance, 
-                de.weather_id, 
-                de.road_id, 
-                de.traffic_id, 
-                GROUP_CONCAT(dm.maneuver_id) AS maneuvers
-            FROM 
-                Driving_Experience de
-            LEFT JOIN 
-                Driving_Maneuvers dm ON de.experience_id = dm.experience_id
-            WHERE 
-                de.experience_id = :experience_id
-            GROUP BY 
-                de.experience_id;
-        ";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([':experience_id' => $experience_id]);
-        $experienceData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($experienceData) {
-            $startTime = $experienceData['start_time'];
-            $endTime = $experienceData['end_time'];
-            $distance = $experienceData['distance'];
-            $weather_id = $experienceData['weather_id'];
-            $road_id = $experienceData['road_id'];
-            $traffic_id = $experienceData['traffic_id'];
-            $selectedManeuvers = explode(',', $experienceData['maneuvers']);
-        }
-    } elseif ($mode === 'new') {
-        $experience_id = 0; 
-    } else {
-        exit("Invalid mode.");
-    }
-    ?>
+} elseif ($mode === 'new') {
+    $experience_id = 0; 
+} else {
+    exit("Invalid mode.");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,8 +71,7 @@
     <link rel="stylesheet" href="css/webForm.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -81,6 +80,23 @@
                 allowClear: true,
                 dropdownAutoWidth: true,
                 width: '100%',
+            });
+
+            // Client-side validation for form
+            document.querySelector('form').addEventListener('submit', function(e) {
+                const startTime = document.querySelector('input[name="startTime"]').value;
+                const endTime = document.querySelector('input[name="endTime"]').value;
+                const distance = document.querySelector('input[name="distance"]').value;
+
+                if (!startTime || !endTime || startTime >= endTime) {
+                    alert("Start Time must be earlier than End Time.");
+                    e.preventDefault();
+                }
+
+                if (distance <= 0) {
+                    alert("Distance must be greater than 0.");
+                    e.preventDefault();
+                }
             });
         });
     </script>
@@ -97,10 +113,12 @@
             <!-- Form Section -->
             <div class="form-section">
                 <form action="webFormUpdate.php" method="POST">
-                    <h2>Add New Driving Experience</h2>
+                    <?php
+                    $heading = ($mode === 'edit') ? 'Edit Driving Experience' : 'Add New Driving Experience';
+                    ?>
+                    <h2><?php echo $heading; ?></h2>
                     <input type="hidden" name="code" value="<?php echo htmlspecialchars($code); ?>">
 
-                    <!-- First Row -->
                     <div class="form-row">
                         <div>
                             <label for="startTime">Start Time:</label>
@@ -116,7 +134,6 @@
                         </div>
                     </div>
 
-                    <!-- Second Row -->
                     <div class="form-row">
                         <div>
                             <label for="weather_id">Weather:</label>
@@ -142,7 +159,6 @@
                         </div>
                     </div>
 
-                    <!-- Third Row -->
                     <div class="form-row">
                         <div>
                             <label for="traffic_id">Traffic:</label>
@@ -168,7 +184,7 @@
                         </div>
                     </div>
 
-                    <button type="submit">Add Experience</button>
+                    <button type="submit">Submit</button>
                 </form>
             </div>
 
@@ -179,7 +195,7 @@
             </div>
         </div>  
     </div>
-    <div class="container">
+<div class="container">
   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
     <div class="col-md-4 d-flex align-items-center">
       <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
